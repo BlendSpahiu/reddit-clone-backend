@@ -1,0 +1,56 @@
+table:
+  name: users
+  schema: public
+object_relationships:
+  - name: community
+    using:
+      foreign_key_constraint_on: commumity_id
+array_relationships:
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: comments
+          schema: public
+  - name: communities
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: communities
+          schema: public
+  - name: posts
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: posts
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - commumity_id
+        - created_at
+        - date_of_birth
+        - email
+        - id
+        - role
+        - updated_at
+        - username
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - commumity_id
+        - created_at
+        - date_of_birth
+        - email
+        - id
+        - role
+        - updated_at
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

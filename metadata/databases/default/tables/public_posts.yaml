@@ -1,0 +1,69 @@
+table:
+  name: posts
+  schema: public
+object_relationships:
+  - name: community
+    using:
+      foreign_key_constraint_on: community_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+array_relationships:
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: post_id
+        table:
+          name: comments
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - downvotes
+        - upvotes
+        - content
+        - image
+        - link
+        - title
+        - created_at
+        - updated_at
+        - community_id
+        - id
+        - user_id
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - downvotes
+        - upvotes
+        - content
+        - image
+        - link
+        - title
+        - created_at
+        - updated_at
+        - community_id
+        - id
+        - user_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - downvotes
+        - upvotes
+        - content
+        - image
+        - link
+        - title
+        - created_at
+        - updated_at
+        - community_id
+        - id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id

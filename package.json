@@ -1,0 +1,15 @@
+{
+  "name": "discord-clone-hasura",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "hasura console",
+    "dev": "hasura console --envfile=.env.dev",
+    "dev:metadata-export": "hasura metadata export --envfile=.env.dev",
+    "dev:migrate-apply": "hasura migrate apply --database-name default --envfile=.env.dev",
+    "dev:metadata-apply": "hasura metadata apply --envfile=.env.dev",
+    "dev:deploy": "npm run dev:migrate-apply && npm run dev:metadata-apply",
+    "migrate": "cd scripts/ && bash hasura-update.sh"
+  }
+}

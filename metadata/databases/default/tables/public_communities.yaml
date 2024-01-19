@@ -1,0 +1,36 @@
+table:
+  name: communities
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+array_relationships:
+  - name: posts
+    using:
+      foreign_key_constraint_on:
+        column: community_id
+        table:
+          name: posts
+          schema: public
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: commumity_id
+        table:
+          name: users
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - category
+        - name
+        - created_at
+        - updated_at
+        - id
+        - post_id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
