@@ -1,25 +1,13 @@
 table:
-  name: communities
+  name: voted_posts
   schema: public
 object_relationships:
+  - name: post
+    using:
+      foreign_key_constraint_on: post_id
   - name: user
     using:
       foreign_key_constraint_on: user_id
-array_relationships:
-  - name: posts
-    using:
-      foreign_key_constraint_on:
-        column: community_id
-        table:
-          name: posts
-          schema: public
-  - name: users
-    using:
-      foreign_key_constraint_on:
-        column: commumity_id
-        table:
-          name: users
-          schema: public
 insert_permissions:
   - role: user
     permission:
@@ -27,34 +15,15 @@ insert_permissions:
         user_id:
           _eq: X-Hasura-User-Id
       columns:
-        - isNSFW
-        - type
-        - category
-        - name
+        - id
+        - user_id
+        - post_id
         - created_at
         - updated_at
-        - id
-        - post_id
-        - user_id
 select_permissions:
-  - role: anonymous
-    permission:
-      columns:
-        - category
-        - name
-        - created_at
-        - updated_at
-        - id
-        - post_id
-        - user_id
-      filter: {}
   - role: user
     permission:
       columns:
-        - isNSFW
-        - type
-        - category
-        - name
         - created_at
         - updated_at
         - id
@@ -68,14 +37,10 @@ update_permissions:
   - role: user
     permission:
       columns:
-        - category
         - created_at
-        - id
-        - isNSFW
-        - name
-        - post_id
-        - type
         - updated_at
+        - id
+        - post_id
         - user_id
       filter:
         user_id:
