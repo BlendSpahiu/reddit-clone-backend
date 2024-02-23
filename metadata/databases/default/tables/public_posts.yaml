@@ -16,6 +16,27 @@ array_relationships:
         table:
           name: comments
           schema: public
+  - name: donwvoted_posts
+    using:
+      foreign_key_constraint_on:
+        column: post_id
+        table:
+          name: donwvoted_posts
+          schema: public
+  - name: upvoted_posts
+    using:
+      foreign_key_constraint_on:
+        column: post_id
+        table:
+          name: upvoted_posts
+          schema: public
+  - name: voted_posts
+    using:
+      foreign_key_constraint_on:
+        column: post_id
+        table:
+          name: voted_posts
+          schema: public
 insert_permissions:
   - role: user
     permission:
@@ -64,6 +85,33 @@ select_permissions:
         - community_id
         - id
         - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - downvotes
+        - upvotes
+        - content
+        - image
+        - link
+        - title
+        - created_at
+        - updated_at
+        - community_id
+        - id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
       filter:
         user_id:
           _eq: X-Hasura-User-Id

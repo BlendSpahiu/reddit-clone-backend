@@ -1,4 +1,7 @@
 - "!include public_comments.yaml"
 - "!include public_communities.yaml"
+- "!include public_donwvoted_posts.yaml"
 - "!include public_posts.yaml"
+- "!include public_upvoted_posts.yaml"
 - "!include public_users.yaml"
+- "!include public_voted_posts.yaml"
