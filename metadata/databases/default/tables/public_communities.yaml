@@ -6,6 +6,27 @@ object_relationships:
     using:
       foreign_key_constraint_on: user_id
 array_relationships:
+  - name: communities_users
+    using:
+      foreign_key_constraint_on:
+        column: community_id
+        table:
+          name: communities_users
+          schema: public
+  - name: draft_posts
+    using:
+      foreign_key_constraint_on:
+        column: community_id
+        table:
+          name: draft_posts
+          schema: public
+  - name: flares
+    using:
+      foreign_key_constraint_on:
+        column: community_id
+        table:
+          name: flares
+          schema: public
   - name: posts
     using:
       foreign_key_constraint_on:
@@ -16,7 +37,7 @@ array_relationships:
   - name: users
     using:
       foreign_key_constraint_on:
-        column: commumity_id
+        column: community_id
         table:
           name: users
           schema: public
@@ -27,38 +48,37 @@ insert_permissions:
         user_id:
           _eq: X-Hasura-User-Id
       columns:
-        - isNSFW
-        - type
         - category
-        - name
         - created_at
-        - updated_at
         - id
-        - post_id
+        - isNSFW
+        - name
+        - type
+        - updated_at
         - user_id
 select_permissions:
   - role: anonymous
     permission:
       columns:
         - category
-        - name
         - created_at
-        - updated_at
         - id
-        - post_id
+        - isNSFW
+        - name
+        - type
+        - updated_at
         - user_id
       filter: {}
   - role: user
     permission:
       columns:
-        - isNSFW
-        - type
         - category
-        - name
         - created_at
-        - updated_at
         - id
-        - post_id
+        - isNSFW
+        - name
+        - type
+        - updated_at
         - user_id
       filter:
         user_id:
@@ -73,7 +93,6 @@ update_permissions:
         - id
         - isNSFW
         - name
-        - post_id
         - type
         - updated_at
         - user_id

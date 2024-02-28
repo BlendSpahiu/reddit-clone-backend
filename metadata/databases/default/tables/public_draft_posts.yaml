@@ -1,5 +1,5 @@
 table:
-  name: posts
+  name: draft_posts
   schema: public
 object_relationships:
   - name: community
@@ -7,41 +7,12 @@ object_relationships:
       foreign_key_constraint_on: community_id
   - name: user
     using:
-      foreign_key_constraint_on: creator_id
-array_relationships:
-  - name: comments
-    using:
-      foreign_key_constraint_on:
-        column: post_id
-        table:
-          name: comments
-          schema: public
-  - name: donwvoted_posts
-    using:
-      foreign_key_constraint_on:
-        column: post_id
-        table:
-          name: donwvoted_posts
-          schema: public
-  - name: upvoted_posts
-    using:
-      foreign_key_constraint_on:
-        column: post_id
-        table:
-          name: upvoted_posts
-          schema: public
-  - name: voted_posts
-    using:
-      foreign_key_constraint_on:
-        column: post_id
-        table:
-          name: voted_posts
-          schema: public
+      foreign_key_constraint_on: user_id
 insert_permissions:
   - role: user
     permission:
       check:
-        creator_id:
+        user_id:
           _eq: X-Hasura-User-Id
       columns:
         - id
@@ -51,30 +22,15 @@ insert_permissions:
         - upvotes
         - downvotes
         - link
-        - creator_id
+        - user_id
         - community_id
-        - created_at
-        - updated_at
         - isNSFW
         - isSpoiler
         - isOriginalContent
         - flair
-select_permissions:
-  - role: anonymous
-    permission:
-      columns:
-        - downvotes
-        - upvotes
-        - content
-        - image
-        - link
-        - title
         - created_at
         - updated_at
-        - community_id
-        - id
-        - creator_id
-      filter: {}
+select_permissions:
   - role: user
     permission:
       columns:
@@ -92,10 +48,11 @@ select_permissions:
         - updated_at
         - community_id
         - id
-        - creator_id
+        - user_id
       filter:
-        creator_id:
+        user_id:
           _eq: X-Hasura-User-Id
+      allow_aggregations: true
 update_permissions:
   - role: user
     permission:
@@ -114,16 +71,16 @@ update_permissions:
         - updated_at
         - community_id
         - id
-        - creator_id
+        - user_id
       filter:
-        creator_id:
+        user_id:
           _eq: X-Hasura-User-Id
       check:
-        creator_id:
+        user_id:
           _eq: X-Hasura-User-Id
 delete_permissions:
   - role: user
     permission:
       filter:
-        creator_id:
+        user_id:
           _eq: X-Hasura-User-Id

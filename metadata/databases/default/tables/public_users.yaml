@@ -4,7 +4,7 @@ table:
 object_relationships:
   - name: community
     using:
-      foreign_key_constraint_on: commumity_id
+      foreign_key_constraint_on: community_id
 array_relationships:
   - name: comments
     using:
@@ -20,6 +20,13 @@ array_relationships:
         table:
           name: communities
           schema: public
+  - name: communities_users
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: communities_users
+          schema: public
   - name: donwvoted_posts
     using:
       foreign_key_constraint_on:
@@ -27,10 +34,24 @@ array_relationships:
         table:
           name: donwvoted_posts
           schema: public
-  - name: posts
+  - name: draft_posts
     using:
       foreign_key_constraint_on:
         column: user_id
+        table:
+          name: draft_posts
+          schema: public
+  - name: flares
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: flares
+          schema: public
+  - name: posts
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
         table:
           name: posts
           schema: public
@@ -60,13 +81,13 @@ insert_permissions:
         - username
         - created_at
         - updated_at
-        - commumity_id
+        - community_id
         - id
 select_permissions:
   - role: anonymous
     permission:
       columns:
-        - commumity_id
+        - community_id
         - created_at
         - date_of_birth
         - email
@@ -78,7 +99,7 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - commumity_id
+        - community_id
         - created_at
         - date_of_birth
         - email
