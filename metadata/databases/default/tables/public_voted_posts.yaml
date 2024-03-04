@@ -16,14 +16,26 @@ insert_permissions:
           _eq: X-Hasura-User-Id
       columns:
         - id
+        - vote
         - user_id
         - post_id
         - created_at
         - updated_at
 select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - vote
+        - created_at
+        - updated_at
+        - id
+        - post_id
+        - user_id
+      filter: {}
   - role: user
     permission:
       columns:
+        - vote
         - created_at
         - updated_at
         - id
@@ -37,6 +49,7 @@ update_permissions:
   - role: user
     permission:
       columns:
+        - vote
         - created_at
         - updated_at
         - id

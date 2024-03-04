@@ -16,20 +16,6 @@ array_relationships:
         table:
           name: comments
           schema: public
-  - name: donwvoted_posts
-    using:
-      foreign_key_constraint_on:
-        column: post_id
-        table:
-          name: donwvoted_posts
-          schema: public
-  - name: upvoted_posts
-    using:
-      foreign_key_constraint_on:
-        column: post_id
-        table:
-          name: upvoted_posts
-          schema: public
   - name: voted_posts
     using:
       foreign_key_constraint_on:
@@ -63,18 +49,23 @@ select_permissions:
   - role: anonymous
     permission:
       columns:
-        - downvotes
-        - upvotes
+        - id
+        - title
         - content
         - image
+        - upvotes
+        - downvotes
         - link
-        - title
+        - creator_id
+        - community_id
         - created_at
         - updated_at
-        - community_id
-        - id
-        - creator_id
+        - isNSFW
+        - isSpoiler
+        - isOriginalContent
+        - flair
       filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -93,9 +84,7 @@ select_permissions:
         - community_id
         - id
         - creator_id
-      filter:
-        creator_id:
-          _eq: X-Hasura-User-Id
+      filter: {}
 update_permissions:
   - role: user
     permission:

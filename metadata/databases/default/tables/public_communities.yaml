@@ -65,6 +65,7 @@ select_permissions:
         - id
         - isNSFW
         - name
+        - owner_id
         - type
         - updated_at
         - user_id
