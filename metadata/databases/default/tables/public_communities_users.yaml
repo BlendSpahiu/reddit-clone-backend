@@ -15,6 +15,7 @@ insert_permissions:
         user_id:
           _eq: X-Hasura-User-Id
       columns:
+        - user_role
         - created_at
         - updated_at
         - community_id
@@ -23,12 +24,19 @@ insert_permissions:
 select_permissions:
   - role: anonymous
     permission:
-      columns: []
+      columns:
+        - id
+        - user_id
+        - community_id
+        - created_at
+        - updated_at
+        - user_role
       filter: {}
       allow_aggregations: true
   - role: user
     permission:
       columns:
+        - user_role
         - created_at
         - updated_at
         - community_id
@@ -42,6 +50,7 @@ update_permissions:
   - role: user
     permission:
       columns:
+        - user_role
         - created_at
         - updated_at
         - community_id
